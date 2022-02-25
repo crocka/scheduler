@@ -1,4 +1,4 @@
-const { useEffect, useState } = require("react");
+const { useState } = require("react");
 
 export default function useVisualMode(mod) {
 
