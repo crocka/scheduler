@@ -9,6 +9,6 @@ export function getAppointmentsForDay(state, day) {
 
     return selectedDay[0].appointments.map(num => state.appointments[num]);
 
-  }
+  };
 
 };
