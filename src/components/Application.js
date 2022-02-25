@@ -10,17 +10,16 @@ import DayList from "./DayList";
 
 import Appointment from "components/Appointment";
 
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
 export default function Application(props) {
-
-  // const [day, setDay] = useState([]);
 
   const [state, setState] = useState({
 
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
 
   });
 
@@ -38,13 +37,26 @@ export default function Application(props) {
 
     ]).then(response => {
 
-        setState(prev => ({ ...prev, days:response[0].data, appointments:response[1].data }));
-       
-      });
+      setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data, interviewers: response[2].data }));
+
+    });
 
   }, []);
-  
+
   dailyAppointments = getAppointmentsForDay(state, state.day);
+
+  const schedule = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+  
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    );
+  });
 
   return (
     <main className="layout">
@@ -70,16 +82,26 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {dailyAppointments.map((appointment) => {
+        {/* {dailyAppointments.map((appointment) => {
+
+          const interview = getInterview(state, appointment.interview);
 
           return (
 
-            <Appointment key={appointment.id} {...appointment}></Appointment>
+            <Appointment
+
+              key={appointment.id}
+              id={appointment.id}
+              time={appointment.time}
+              interview={interview}>
+
+            </Appointment>
 
 
           );
 
-        })}
+        })} */}
+        {schedule}
         <Appointment key="last" time="5pm"></Appointment>
       </section>
     </main>
