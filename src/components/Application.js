@@ -39,9 +39,6 @@ export default function Application(props) {
     ]).then(response => {
 
         setState(prev => ({ ...prev, days:response[0].data, appointments:response[1].data }));
-
-        console.log(response[0])
-
        
       });
 
