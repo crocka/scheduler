@@ -40,7 +40,7 @@ export default function Application(props) {
 
         setState(prev => ({ ...prev, days:response[0].data, appointments:response[1].data }));
        
-      });
+      })
 
   }, []);
   
