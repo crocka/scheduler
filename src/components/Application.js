@@ -43,7 +43,7 @@ export default function Application(props) {
         console.log(response[0])
 
        
-      })
+      });
 
   }, []);
   
