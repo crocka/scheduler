@@ -14,7 +14,6 @@ export default function Appointment(props) {
 
   const { mode, transition, back } = useVisualMode( props.interview ? SHOW : EMPTY );
 
-  console.log(props.interview)
   return (
 
     <article className="appointment">

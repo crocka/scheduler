@@ -25,7 +25,7 @@ export default function Application(props) {
 
   let dailyAppointments = [];
 
-  const setDay = day => setState({ ...state, day });
+  const setDay = day => setState(prev => ({ ...prev, day }));
 
   useEffect(() => {
 
