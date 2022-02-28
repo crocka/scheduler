@@ -39,15 +39,15 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    setState({...state, appointments: appointments});
-
-    axios.put(`http://localhost:8001/api/appointments/${id}`, {...appointment});
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, {...appointment})
+      .then(() => setState({...state, appointments: appointments}));
 
   };
 
   function cancelInterview(id) {
     
-    axios.delete(`http://localhost:8001/api/appointments/${id}`);
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+      // .then(() => setState({...state, [id]: {...state.appointments[id], interview: null}}));
 
   };
 
