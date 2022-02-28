@@ -64,9 +64,13 @@ export default function Appointment(props) {
       {mode === CONFIRMATION && (
 
         <Confirm message={"Are you sure you want to delete?"} onConfirm={() => {
-          props.cancelInterview(props.id);
+
           transition(DELETING);
-          setTimeout(() => transition(EMPTY),1000);
+
+          props.cancelInterview(props.id)
+            .then(() => setTimeout(() => transition(EMPTY),1000))
+            .catch(() => setTimeout(() => transition(ERROR_DELETE, true), 1000));
+          
         
         }} onCancel={back} />
 
