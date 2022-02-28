@@ -29,7 +29,7 @@ export default function Appointment(props) {
       interviewer
     };
 
-    transition(SAVING);
+    transition(SAVING, true);
 
     props.bookInterview(props.id,interview)
       .then(() => setTimeout(() => transition(SHOW),1000))
@@ -65,7 +65,7 @@ export default function Appointment(props) {
 
         <Confirm message={"Are you sure you want to delete?"} onConfirm={() => {
 
-          transition(DELETING);
+          transition(DELETING, true);
 
           props.cancelInterview(props.id)
             .then(() => setTimeout(() => transition(EMPTY),1000))
@@ -80,8 +80,8 @@ export default function Appointment(props) {
         <Form student={props.interview.student} interviewer={props.interview.interviewer.id} interviewers={props.interviewers} onCancel={back} onSave={save} />
 
       )}
-      {mode === ERROR_SAVE && <Error message = "Unable to save" onClose={back} />}
-      {mode === ERROR_DELETE && <Error message = "Unable to delete" onClose={back} />}
+      {mode === ERROR_SAVE && <Error message = "Unable to save appointment" onClose={back} />}
+      {mode === ERROR_DELETE && <Error message = "Unable to cancel appointment" onClose={back} />}
 
     </article>
 
