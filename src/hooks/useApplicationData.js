@@ -44,16 +44,30 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, {...appointment})
-      .then(() => setState({...state, appointments: appointments}));
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
+      .then(() => setState({ ...state, appointments: appointments }))
+      .then(() => updateSpots());
 
   };
 
   function cancelInterview(id) {
-    
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`);
+
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+      .then(() => updateSpots());
 
   };
+
+  function updateSpots() {
+
+    axios.get('http://localhost:8001/api/days')
+
+    .then(response => {
+
+      setState(prev => ({ ...prev, days: response.data }));
+
+    });
+
+  }
 
 
 
