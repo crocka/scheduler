@@ -1,8 +1,8 @@
 import React from "react";
 
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
-import axios from "axios";
+// import axios from "axios";
 
 import "components/Application.scss";
 
@@ -12,59 +12,70 @@ import Appointment from "components/Appointment";
 
 import { getAppointmentsForDay, getInterview, getInterviewersForDay} from "helpers/selectors";
 
+import useApplicationData from "hooks/useApplicationData";
+
 export default function Application(props) {
 
-  const [state, setState] = useState({
+  // const [state, setState] = useState({
 
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
+  //   day: "Monday",
+  //   days: [],
+  //   appointments: {},
+  //   interviewers: {}
 
-  });
+  // });
+
+  const {
+
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+
+  } = useApplicationData();
 
   let dailyAppointments = [];
 
-  const setDay = day => setState(prev => ({ ...prev, day }));
+  // const setDay = day => setState(prev => ({ ...prev, day }));
 
-  function bookInterview(id, interview) {
+  // function bookInterview(id, interview) {
 
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
+  //   const appointment = {
+  //     ...state.appointments[id],
+  //     interview: { ...interview }
+  //   };
 
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
+  //   const appointments = {
+  //     ...state.appointments,
+  //     [id]: appointment
+  //   };
 
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, {...appointment})
-      .then(() => setState({...state, appointments: appointments}));
+  //   return axios.put(`http://localhost:8001/api/appointments/${id}`, {...appointment})
+  //     .then(() => setState({...state, appointments: appointments}));
 
-  };
+  // };
 
-  function cancelInterview(id) {
+  // function cancelInterview(id) {
     
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`);
+  //   return axios.delete(`http://localhost:8001/api/appointments/${id}`);
 
-  };
+  // };
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    Promise.all([
+  //   Promise.all([
 
-      axios.get('http://localhost:8001/api/days'),
-      axios.get('http://localhost:8001/api/appointments'),
-      axios.get('http://localhost:8001/api/interviewers')
+  //     axios.get('http://localhost:8001/api/days'),
+  //     axios.get('http://localhost:8001/api/appointments'),
+  //     axios.get('http://localhost:8001/api/interviewers')
 
-    ]).then(response => {
+  //   ]).then(response => {
 
-      setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data, interviewers: response[2].data }));
+  //     setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data, interviewers: response[2].data }));
 
-    });
+  //   });
 
-  }, []);
+  // }, []);
 
   dailyAppointments = getAppointmentsForDay(state, state.day);
 
