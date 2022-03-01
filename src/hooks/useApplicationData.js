@@ -1,9 +1,34 @@
 import axios from "axios";
 const { useReducer, useEffect } = require("react");
-
-
+const WebSocket = require("ws");
+const ws = new WebSocket('ws://localhost:8001/');
 
 export default function useApplicationData() {
+
+  useEffect(() => {
+
+    // webSocket.on("connection", socket => {
+    //   socket.onmessage = event => {
+    //     console.log(`Message Received: ${event.data}`);
+    
+    //     if (event.data === "ping") {
+    //       socket.send(JSON.stringify("pong"));
+    //     }
+    //   };
+
+    //   socket.send('Hello, server.');
+    // });
+    
+    ws.on('open', function open() {
+      ws.send('something');
+    });
+    
+    ws.on('message', function incoming(data) {
+      console.log(data);
+    });
+
+
+  }, []);
 
   const reducers = {
 
