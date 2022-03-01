@@ -12,6 +12,7 @@ export default function Form(props) {
 
     setStudent('');
     setInterviewer(null);
+    setError("");
 
   };
 
@@ -28,6 +29,7 @@ export default function Form(props) {
       return;
     }
   
+    setError("");
     props.onSave(student, interviewer);
   }
 
