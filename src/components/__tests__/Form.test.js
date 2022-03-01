@@ -53,7 +53,6 @@ describe("Form", () => {
   
   it("calls onSave function when the name is defined", () => {
     /* 3. validation is not shown */
-
     const onSave = jest.fn();
 
     const { getByText, queryByText } = render(
