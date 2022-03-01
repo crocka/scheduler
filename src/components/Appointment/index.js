@@ -21,6 +21,8 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
 
+  const dayIndex = {"Monday": 0, "Tuesday" : 1, "Wednesday" : 2, "Thursday" : 3, "Friday" : 4};
+
   const { mode, transition, back } = useVisualMode( props.interview ? SHOW : EMPTY );
 
   function save(name, interviewer) {
@@ -31,7 +33,7 @@ export default function Appointment(props) {
 
     transition(SAVING, true);
 
-    props.bookInterview(props.id,interview)
+    props.bookInterview(props.id,interview, dayIndex[props.day])
       .then(() => setTimeout(() => transition(SHOW),1000))
       .catch((err) => setTimeout(() => transition(ERROR_SAVE, true), 1000));
 
@@ -67,7 +69,7 @@ export default function Appointment(props) {
 
           transition(DELETING, true);
 
-          props.cancelInterview(props.id)
+          props.cancelInterview(props.id, dayIndex[props.day])
             .then(() => setTimeout(() => transition(EMPTY),1000))
             .catch(() => setTimeout(() => transition(ERROR_DELETE, true), 1000));
           

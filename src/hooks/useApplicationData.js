@@ -19,13 +19,13 @@ export default function useApplicationData() {
     //   socket.send('Hello, server.');
     // });
     
-    ws.on('open', function open() {
-      ws.send('something');
-    });
+    // ws.on('open', function open() {
+    //   ws.send('something');
+    // });
     
-    ws.on('message', function incoming(data) {
-      console.log(data);
-    });
+    // ws.on('message', function incoming(data) {
+    //   console.log(data);
+    // });
 
 
   }, []);
@@ -101,7 +101,7 @@ export default function useApplicationData() {
 
   }, []);
 
-  function bookInterview(id, interview) {
+  async function bookInterview(id, interview, dayIndex) {
 
     const appointment = {
       ...state.appointments[id],
@@ -113,28 +113,46 @@ export default function useApplicationData() {
     //   [id]: appointment
     // };
 
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
+    return await axios.put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
       .then(() => dispatch({ type: 'SET_INTERVIEW', id, interview }))
-      .then(() => updateSpots());
+      .then(() => updateSpots(dayIndex));
 
   };
 
-  function cancelInterview(id) {
+  async function cancelInterview(id, dayIndex) {
 
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
-      .then(() => updateSpots())
-      .then(() => dispatch({ type: 'SET_INTERVIEW', id, interview: null }));
+    return await axios.delete(`http://localhost:8001/api/appointments/${id}`)
+      .then(() => {
+        
+        dispatch({ type: 'SET_INTERVIEW', id, interview: null });
+      
+      })
+      .then(() => updateSpots(dayIndex));
+      // .then(() => );
 
   };
 
-  function updateSpots() {
+  function updateSpots(id) {
 
-    return axios.get('http://localhost:8001/api/days')
-    .then(response => {
+    // return axios.get('http://localhost:8001/api/days')
+    // .then(response => {
 
-      dispatch({ type:'SET_DAYS', days: response.data });
+    //   dispatch({ type:'SET_DAYS', days: response.data });
+
+    // });
+
+    const days = [...state.days];
+
+    let spots = 0;
+
+    days[id].appointments.forEach((appointment) => {
+
+      state.appointments[appointment].interview ? spots += 0 : spots += 1;
 
     });
+
+    console.log(spots);
+
 
   }
 
