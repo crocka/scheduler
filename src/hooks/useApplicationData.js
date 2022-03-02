@@ -5,7 +5,7 @@ const ws = new WebSocket('ws://localhost:8001/');
 
 export default function useApplicationData() {
 
-  useEffect(() => {
+  // useEffect(() => {
 
     // webSocket.on("connection", socket => {
     //   socket.onmessage = event => {
@@ -28,7 +28,7 @@ export default function useApplicationData() {
     // });
 
 
-  }, []);
+  // }, []);
 
   const reducers = {
 
@@ -54,7 +54,7 @@ export default function useApplicationData() {
 
       const appointment = {
         ...state.appointments[action.id],
-        interview: { ...action.interview }
+        interview: action.interview
       };
   
       const appointments = {
@@ -62,7 +62,21 @@ export default function useApplicationData() {
         [action.id]: appointment
       };
 
-      return state = {...state, appointments};
+      state = {...state, appointments}
+
+      const days = [...state.days];
+
+      let spots = 0;
+  
+      days[action.daysId].appointments.forEach((appointment) => {
+  
+        state.appointments[appointment].interview ? spots += 0 : spots += 1;
+
+      });
+  
+      days[action.daysId].spots = spots;
+
+      return state = {...state, days};
 
     }
 
@@ -101,7 +115,7 @@ export default function useApplicationData() {
 
   }, []);
 
-  async function bookInterview(id, interview, dayIndex) {
+  function bookInterview(id, interview, dayIndex) {
 
     const appointment = {
       ...state.appointments[id],
@@ -113,21 +127,29 @@ export default function useApplicationData() {
     //   [id]: appointment
     // };
 
-    return await axios.put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
-      .then(() => dispatch({ type: 'SET_INTERVIEW', id, interview }))
-      .then(() => updateSpots(dayIndex));
+    return (axios.put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
+      .then(() => {
+        
+        dispatch({ type: 'SET_INTERVIEW', id, daysId: dayIndex, interview });
+      
+      })
+      // .then(() => console.log(state.appointments))
+      
+      );
 
   };
 
-  async function cancelInterview(id, dayIndex) {
+  function cancelInterview(id, dayIndex) {
 
-    return await axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    return (axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
         
-        dispatch({ type: 'SET_INTERVIEW', id, interview: null });
+        dispatch({ type: 'SET_INTERVIEW', id, daysId: dayIndex, interview: null });
       
       })
-      .then(() => updateSpots(dayIndex));
+      // .then(() => console.log(state.appointments))
+      
+    );
       // .then(() => );
 
   };
@@ -151,6 +173,8 @@ export default function useApplicationData() {
 
     });
 
+    console.log(days)
+    console.log(state.appointments)
     console.log(spots);
 
 
