@@ -21,10 +21,13 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
 
+  //search for dayIndex according to the name of the day
   const dayIndex = {"Monday": 0, "Tuesday" : 1, "Wednesday" : 2, "Thursday" : 3, "Friday" : 4};
 
+  //custom hook to control the display interface
   const { mode, transition, back } = useVisualMode( props.interview ? SHOW : EMPTY );
 
+  //save when the save button is clicked
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -34,7 +37,7 @@ export default function Appointment(props) {
     transition(SAVING, true);
 
     props.bookInterview(props.id,interview, dayIndex[props.day])
-      .then(() => setTimeout(() => transition(SHOW),1000))
+      .then(() => setTimeout(() => transition(SHOW),1000))// setTimeout used to exaggerate the show interface
       .catch((err) => setTimeout(() => transition(ERROR_SAVE, true), 1000));
 
     
@@ -67,11 +70,12 @@ export default function Appointment(props) {
 
         <Confirm message={"Are you sure you want to delete?"} onConfirm={() => {
 
+          //transition to deleting interface
           transition(DELETING, true);
 
           props.cancelInterview(props.id, dayIndex[props.day])
-            .then(() => setTimeout(() => transition(EMPTY),1000))
-            .catch(() => setTimeout(() => transition(ERROR_DELETE, true), 1000));
+            .then(() => setTimeout(() => transition(EMPTY),1000))// setTimeout used to exaggerate the deleting interface
+            .catch(() => setTimeout(() => transition(ERROR_DELETE, true), 1000));// setTimeout used to exaggerate the deleting interface
           
         
         }} onCancel={back} />

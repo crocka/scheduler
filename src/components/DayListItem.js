@@ -4,6 +4,7 @@ import './DayListItem.scss';
 
 export default function DayListItem(props) {
 
+  //format spots for proper English grammar
   const formatSpots = function(pspots) {
 
     let spots = pspots + ' spots';

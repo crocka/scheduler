@@ -6,7 +6,7 @@ export default function InterviewerListItem(props) {
 
   let classes = classNames('interviewers__item', {
 
-    'interviewers__item--selected': props.selected
+    'interviewers__item--selected': props.selected //add this class when the interviewer is selected
 
   });
 

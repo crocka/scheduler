@@ -1,97 +1,76 @@
 import axios from "axios";
 const { useReducer, useEffect } = require("react");
-// const WebSocket = require("ws");
-// const ws = new WebSocket('ws://localhost:8001/');
-
-
-
-
 
 export default function useApplicationData() {
 
-  // useEffect(() => {
-
-    // webSocket.on("connection", socket => {
-    //   socket.onmessage = event => {
-    //     console.log(`Message Received: ${event.data}`);
-    
-    //     if (event.data === "ping") {
-    //       socket.send(JSON.stringify("pong"));
-    //     }
-    //   };
-
-    //   socket.send('Hello, server.');
-    // });
-    
-    // ws.on('open', function open() {
-    //   ws.send('something');
-    // });
-    
-    // ws.on('message', function incoming(data) {
-    //   console.log(data);
-    // });
-
-
-  // }, []);
-
+  //Reduce functions selector
   const reducers = {
 
-    SET_DAY (state, action) {
+    SET_DAY(state, action) {
 
-      return state = {...state, day:action.day};
-
-    },
-
-    SET_DAYS (state, action) {
-
-      return state = {...state, days:action.days};
+      return state = { ...state, day: action.day };
 
     },
 
-    SET_APPLICATION_DATA (state, action) {
+    SET_DAYS(state, action) {
 
-      return state = {...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers};
+      return state = { ...state, days: action.days };
 
     },
 
-    SET_INTERVIEW (state, action) {
+    SET_APPLICATION_DATA(state, action) {
 
+      return state = { ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers };
+
+    },
+
+    SET_INTERVIEW(state, action) {
+
+      //make a new appointment object with the new appointment
       const appointment = {
         ...state.appointments[action.id],
         interview: action.interview
       };
-  
+
+      //make a new appointments object with the updated appointment object
       const appointments = {
         ...state.appointments,
         [action.id]: appointment
       };
 
-      state = {...state, appointments}
+      //update state with new appointments
+      state = { ...state, appointments }
 
+      //make a new days object
       const days = [...state.days];
 
       let spots = 0;
-  
+
+      //count free spots using the updated state object
       days[action.daysId].appointments.forEach((appointment) => {
-  
+
         state.appointments[appointment].interview ? spots += 0 : spots += 1;
 
       });
-  
+
+      //send the updated spots to our days object
       days[action.daysId].spots = spots;
 
-      return state = {...state, days};
+      //return the updated state
+      return state = { ...state, days };
 
     }
 
   };
 
+  //generate reducer function
   function reducer(state, action) {
 
     return reducers[action.type](state, action) || state;
 
   };
-  
+
+  //set state using useReducer
   const [state, dispatch] = useReducer(reducer, {
 
     day: "Monday",
@@ -101,8 +80,10 @@ export default function useApplicationData() {
 
   });
 
+  //package setDay function
   const setDay = day => dispatch({ type: 'SET_DAY', day });
 
+  //axios requests
   useEffect(() => {
 
     Promise.all([
@@ -113,12 +94,13 @@ export default function useApplicationData() {
 
     ]).then(response => {
 
-      dispatch({type: 'SET_APPLICATION_DATA', days: response[0].data, appointments: response[1].data, interviewers: response[2].data });
+      dispatch({ type: 'SET_APPLICATION_DATA', days: response[0].data, appointments: response[1].data, interviewers: response[2].data });
 
     });
 
   }, []);
 
+  //bookInterview function that calls SET_INTERVIEW reducer to update the interviews and spots
   function bookInterview(id, interview, dayIndex) {
 
     const appointment = {
@@ -126,66 +108,32 @@ export default function useApplicationData() {
       interview: { ...interview }
     };
 
-    // const appointments = {
-    //   ...state.appointments,
-    //   [id]: appointment
-    // };
-
     return (axios.put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
       .then(() => {
-        
+
         dispatch({ type: 'SET_INTERVIEW', id, daysId: dayIndex, interview });
-      
+
       })
-      // .then(() => console.log(state.appointments))
-      
-      );
+
+    );
 
   };
 
+  //cancelInterview function that calls SET_INTERVIEW reducer to update the interviews to null and spots
   function cancelInterview(id, dayIndex) {
 
     return (axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
-        
+
         dispatch({ type: 'SET_INTERVIEW', id, daysId: dayIndex, interview: null });
-      
+
       })
-      // .then(() => console.log(state.appointments))
-      
+
     );
-      // .then(() => );
 
   };
 
-  function updateSpots(id) {
-
-    // return axios.get('http://localhost:8001/api/days')
-    // .then(response => {
-
-    //   dispatch({ type:'SET_DAYS', days: response.data });
-
-    // });
-
-    const days = [...state.days];
-
-    let spots = 0;
-
-    days[id].appointments.forEach((appointment) => {
-
-      state.appointments[appointment].interview ? spots += 0 : spots += 1;
-
-    });
-
-    console.log(days)
-    console.log(state.appointments)
-    console.log(spots);
-
-
-  }
-
-
-
+  //return the functions and state that application needs
   return {
 
     state,

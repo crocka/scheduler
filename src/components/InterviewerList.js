@@ -5,6 +5,7 @@ import InterviewerListItem from "./InterviewerListItem";
 
 export default function InterviewerList(props) {
 
+  //make an array of interviewer jsx
   let interviewer = props.interviewers.map((interviewer) => {
 
     return (

@@ -1,9 +1,5 @@
 import React from "react";
 
-// import { useState, useEffect } from "react";
-
-// import axios from "axios";
-
 import "components/Application.scss";
 
 import DayList from "./DayList";
@@ -16,6 +12,7 @@ import useApplicationData from "hooks/useApplicationData";
 
 export default function Application() {
 
+  //get the nessesary functions and state from custom hook
   const {
 
     state,
@@ -27,8 +24,10 @@ export default function Application() {
 
   let dailyAppointments = [];
 
+  //find appointments of one day
   dailyAppointments = getAppointmentsForDay(state, state.day);
 
+  //loop through the dailyAppointments to get interview info for each apointment of the day
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
   
@@ -46,6 +45,7 @@ export default function Application() {
     );
   });
 
+  //return the jsx
   return (
     <main className="layout">
       <section className="sidebar">
