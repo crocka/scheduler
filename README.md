@@ -4,7 +4,7 @@ The interview scheduler allows students to book and manage an interview with a m
 ## Setup
 
 Install dependencies with `npm install`.
-Require to install version of ['scheduler-api'](https://github.com/deke76/scheduler-api)
+Require to install version of [scheduler-api](https://github.com/deke76/scheduler-api)
 
 ## Running Webpack Development Server
 
@@ -25,7 +25,7 @@ npm run storybook
 ```
 
 ## Screenshots
-!["Main page with default set to Monday"](https://github.com/crocka/scheduler/blob/master/docs/mainpage_default_monday.png)
+![Main page with default set to Monday](https://github.com/crocka/scheduler/blob/master/docs/mainpage_default_monday.png)
 !["Switch to a different day"](https://github.com/crocka/scheduler/blob/master/docs/swtich_to_different_day.png)
 !["Adding an appointment by click the plus sign"](https://github.com/crocka/scheduler/blob/master/docs/adding_appointment_form.png)
 !["Saving interface"](https://github.com/crocka/scheduler/blob/master/docs/saving_interface.png)
