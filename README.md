@@ -8,12 +8,12 @@ Require to install version of [scheduler-api](https://github.com/deke76/schedule
 
 ## Dependencies
 
-axios\n
-classnames
-normalize.css
-react
-react-dom
-react-scripts
+* axios
+* classnames
+* normalize.css
+* react
+* react-dom
+* react-scripts
 
 ## Running Webpack Development Server
 
