@@ -8,7 +8,7 @@ Require to install version of [scheduler-api](https://github.com/deke76/schedule
 
 ## Dependencies
 
-axios
+axios\n
 classnames
 normalize.css
 react
