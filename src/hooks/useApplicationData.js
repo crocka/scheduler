@@ -108,7 +108,7 @@ export default function useApplicationData() {
       interview: { ...interview }
     };
 
-    return (axios.put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
+    return (axios.put(`/api/appointments/${id}`, { ...appointment })
       .then(() => {
 
         dispatch({ type: 'SET_INTERVIEW', id, daysId: dayIndex, interview });
@@ -122,7 +122,7 @@ export default function useApplicationData() {
   //cancelInterview function that calls SET_INTERVIEW reducer to update the interviews to null and spots
   function cancelInterview(id, dayIndex) {
 
-    return (axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    return (axios.delete(`/api/appointments/${id}`)
       .then(() => {
 
         dispatch({ type: 'SET_INTERVIEW', id, daysId: dayIndex, interview: null });

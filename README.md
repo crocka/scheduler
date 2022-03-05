@@ -4,6 +4,7 @@ The interview scheduler allows students to book and manage an interview with a m
 ## Setup
 
 Install dependencies with `npm install`.
+Require to install version of [scheduler-api] (https://github.com/deke76/scheduler-api)
 
 ## Running Webpack Development Server
 
